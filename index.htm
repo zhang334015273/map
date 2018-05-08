@@ -1,0 +1,110 @@
+<!DOCTYPE>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/echarts.min.js"></script>
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 100%;height:900px;"></div>
+    
+
+    <script type="text/javascript">
+        $.ajaxSetup({  
+            async : false  
+        });
+        $.get('json/china.json', function (chinaJson) {
+            echarts.registerMap('china', chinaJson);
+        });
+        var dataArray = [
+            {name: '北京',value: Math.round(Math.random()*1000)},
+            {name: '天津',value: Math.round(Math.random()*1000)},
+            {name: '上海',value: Math.round(Math.random()*1000)},
+            {name: '重庆',value: Math.round(Math.random()*1000)},
+            {name: '河北',value: Math.round(Math.random()*1000)},
+            {name: '河南',value: Math.round(Math.random()*1000)},
+            {name: '云南',value: Math.round(Math.random()*1000)},
+            {name: '辽宁',value: Math.round(Math.random()*1000)},
+            {name: '黑龙江',value: Math.round(Math.random()*1000)},
+            {name: '湖南',value: Math.round(Math.random()*1000)},
+            {name: '安徽',value: Math.round(Math.random()*1000)},
+            {name: '山东',value: Math.round(Math.random()*1000)},
+            {name: '新疆',value: 0},
+            {name: '江苏',value: Math.round(Math.random()*1000)},
+            {name: '浙江',value: Math.round(Math.random()*1000)},
+            {name: '江西',value: Math.round(Math.random()*1000)},
+            {name: '湖北',value: Math.round(Math.random()*1000)},
+            {name: '广西',value: Math.round(Math.random()*1000)},
+            {name: '甘肃',value: Math.round(Math.random()*1000)},
+            {name: '山西',value: Math.round(Math.random()*1000),itemStyle:{areaColor:'#FFFFFF'}},
+            {name: '内蒙古',value: Math.round(Math.random()*1000)},
+            {name: '陕西',value: Math.round(Math.random()*1000)},
+            {name: '吉林',value: Math.round(Math.random()*1000)},
+            {name: '福建',value: Math.round(Math.random()*1000)},
+            {name: '贵州',value: Math.round(Math.random()*1000)},
+            {name: '广东',value: Math.round(Math.random()*1000)},
+            {name: '青海',value: Math.round(Math.random()*1000)},
+            {name: '西藏',value: Math.round(Math.random()*1000)},
+            {name: '四川',value: Math.round(Math.random()*1000)},
+            {name: '宁夏',value: Math.round(Math.random()*1000)},
+            {name: '海南',value: Math.round(Math.random()*1000)},
+            {name: '台湾',value: Math.round(Math.random()*1000)},
+            {name: '钓鱼岛',value: Math.round(Math.random()*1000)},
+            {name: '香港',value: Math.round(Math.random()*1000),label:{offset:[12,-3]}},
+            {name: '澳门',value: Math.round(Math.random()*1000),label:{offset:[-5,3]}},
+            {name: '南海诸岛',value: 0, tooltip : {showContent: false,trigger:'axis'},itemStyle:{ normal:{opacity:0,label:{show:false}},},label:{show:false} }
+
+        ];
+
+        for(var i=0;i<dataArray.length;i++){
+            if(dataArray[i].value>0){
+                dataArray[i].emphasis={itemStyle:{areaColor:'#AEEEEE'}};
+            }else{
+                dataArray[i].emphasis={itemStyle:{areaColor:'#dddddd'}};
+            }
+        }
+
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            legend: {
+                left: 'left',
+                itemWidth:100
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: '景点:{c}'
+            },
+            series : [{
+                    type: 'map',
+                    mapType: 'china',
+                    itemStyle:{
+                        borderColor:'#fff',
+                        areaColor:'#dddddd'
+                    },
+                    
+                    label: {
+                        normal: {
+                            show: true
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    data:dataArray
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        myChart.dispatchAction({
+            type: 'mapSelect'
+        })
+    </script>
+</body>
+</html>
